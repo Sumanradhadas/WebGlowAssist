@@ -1,0 +1,144 @@
+We are switching to Vapi Client SDK and will not use any external backend.
+Everything must run frontend-only on Vercel.
+
+Below are the final requirements for the calling system:
+
+✅ 1. NO backend server at all
+
+Do not use Express, Node server, or any external hosting.
+
+All logic must be done using Vapi Client SDK in the browser.
+
+Vercel will only host our static frontend.
+
+✅ 2. Remove Vapi Widget
+
+The widget is NOT allowed on the site because:
+
+It shows chat UI
+
+It is not giving mobile-style call screen
+
+It auto-starts in background (bad UX)
+
+We will build a custom call UI using the Client SDK.
+
+✅ 3. Implement Custom Dialer UI
+
+We need a custom “mobile call screen” with:
+
+Green Start Call button
+
+Red End Call button
+
+Display timer (00:00 → counting)
+
+“Connecting…” → “Call Started” status
+
+Optional ringtone sound before call connects
+
+Must look like a mobile call interface
+
+No chat, no default widget.
+
+✅ 4. Start call ONLY after user click
+
+Browser does NOT allow microphone access before user interaction.
+
+So:
+
+When user opens page, show a big button: “Start Call”
+
+After clicking, immediately start the Vapi call using Client SDK.
+
+Then switch to the dialer screen.
+
+✅ 5. Fix auto-disconnect issue
+
+Because we’re using frontend-only, it fixes:
+
+Vercel backend sleeping
+
+Disconnecting calls
+
+Interruption between conversation
+
+All WebRTC will run directly between browser ↔ Vapi, no server.
+
+✅ 6. Stop audio stream showing in notification as looping
+
+While connecting, some mobiles show “audio streaming” because of ringtone loop.
+
+Fix:
+
+Stop looping ringtone
+
+Play ringtone only for 2–3 seconds OR until “start” event fires
+
+Use on("call-start") to stop any temporary sound.
+
+✅ 7. Real-time Call Timer
+
+Use JavaScript event listeners:
+
+Start timer when call-start event fires
+
+Stop timer when call-end event fires
+
+This creates a real-phone feeling.
+
+✅ 8. Full Client SDK Flow
+
+Below is the required workflow.
+(You will implement it, not copy as-is.)
+
+BEFORE CALL
+
+Load the Vapi SDK script
+
+Wait for user click → start call
+
+Switch UI to dialer mode
+
+DURING CALL
+
+Display timer
+
+Show “Talking…”
+
+Show end button
+
+Show user mic levels (optional)
+
+AFTER CALL
+
+Stop timer
+
+Show “Call Ended”
+
+Optionally show a button to call again
+
+✅ 9. Transcription Saving
+
+No backend needed.
+Use SDK events:
+
+on("transcript") → push transcript to local array
+
+After call → store final transcript:
+
+Either download as .txt
+
+Or send to Gmail using Zapier webhook (optional future)
+
+For now: just collect and show transcript.
+
+⭐ FINAL NOTE
+
+Everything (UI + call logic) must be made using:
+
+Vapi Client SDK + HTML/CSS/JS only
+
+
+No backend.
+Deploy on Vercel as static site.

@@ -1,0 +1,110 @@
+ROUGH IDEA — HOW TO MAKE YOUR OWN CUSTOM CALL SCREEN
+1. Load the VAPI widget secretly
+
+You keep the VAPI widget on the page but hidden, so the visitor never sees it.
+It only provides the engine for voice calling in the background.
+
+2. Build your own UI (your own call screen)
+
+You design a screen that looks like a phone dialer:
+
+A big “Start Call” button
+
+A profile picture
+
+A waveform
+
+Timer “00:00”
+
+An “End Call” red button
+
+Background color / logo
+
+Whatever design you want
+
+This UI is completely your own, not from VAPI.
+
+3. When user presses your Start button → trigger VAPI call
+
+Your button simply tells VAPI:
+“start the call now.”
+
+So your UI acts like the “front”, VAPI is the “engine”.
+
+4. When user presses End Call → stop the VAPI call
+
+Your red hangup button just tells VAPI to stop the call.
+
+5. You control the timer yourself
+
+When the call starts, you begin a timer in JavaScript.
+When call ends, you stop it.
+
+This creates the exact effect of a real mobile call screen.
+
+6. OPTIONAL — Auto-call when page opens
+
+You can make it start calling automatically if the user taps anywhere or clicks a “Start” consent button.
+(Note: browsers don’t allow mic auto-start without user interaction.)
+
+7. VAPI is fully hidden — only your screen is visible
+
+VAPI handles:
+
+voice
+
+transcription
+
+connection with your assistant
+
+Your custom UI handles:
+
+display
+
+buttons
+
+animations
+
+timer
+
+Think of it like this:
+
+VAPI = the engine
+Your HTML = the entire car
+8. Workflow in simplest possible terms
+Page loads → Your UI appears
+
+(Your own custom-designed call interface)
+
+⬇
+
+User clicks “Start Call” → VAPI call begins
+Your UI switches into “call active mode”
+
+⬇
+
+Timer starts
+Waveform animates
+User talks normally
+
+⬇
+
+User clicks “End Call” → VAPI stops
+Timer stops
+UI returns to start screen
+
+9. You can style your UI to look exactly like a mobile call screen
+
+green start button
+
+red hangup button
+
+black background
+
+circular avatar
+
+call timer
+
+“Calling WebGlow…” text
+
+Your imagination, your style — VAPI doesn’t restrict UI at all.
